@@ -11,7 +11,7 @@ interface IObserver {
 }
 
 class WeatherStation implements IObservable {
-    private subscriptions: any;
+    private subscriptions: Array<IObserver>;
     constructor() {
         this.subscriptions = []
     }
@@ -23,11 +23,11 @@ class WeatherStation implements IObservable {
     }
 
     remove(observer: IObserver) {
-        this.subscriptions.filter((i: any) => i=== observer);
+        this.subscriptions.filter((i: IObserver) => i === observer);
     }
 
     notify() {
-        this.subscriptions.forEach((o: any) => {
+        this.subscriptions.forEach((o: IObserver) => {
             o.update();
         })
     }
@@ -47,8 +47,8 @@ class WeatherStation implements IObservable {
 // here we are coupling source1 with an instance of weather station in case we want to access some methods from it once update is made. 
 
 class Source1 implements IObserver {
-    private station: any;
-    constructor(station: any) {
+    private station: WeatherStation;
+    constructor(station: WeatherStation) {
         this.station = station;
     }
     update() {
