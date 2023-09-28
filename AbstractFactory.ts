@@ -1,101 +1,88 @@
-// Here we have created 2 concrete factories - DestopAnalyticsFactory and PhoneAnalytcisFactory. These both implements same abtract factory class and gives us 2 products - Product1 and Product2. But Product1 and Product2 are related and compatible within the scope of its family. That is DestopAnalyticsFactory is a family with realted or compatible Product1 and Product2 separate from PhoneAnalytcisFactory family with related and compatible Product1 and Product2. So, to simply explain - if we want to get products specifically for desktop devices we use DestopAnalyticsFactory and if we want to get products specifcially for phone devices we use PhoneAnalytcisFactory. 
-
-interface AbstractAnalyticsFactory {
-    Product1: () => void;
-    Product2: () => void;
+interface IFurniturefactory {
+    chair: () => IChair;
+    sofa: () => ISofa;
 }
 
-interface AbstractProductA {
-    Function1: () => void;
-    Function2: () => void;
+// Abstract Product1 Interface
+interface IChair {
+    getChair: () => void;
 }
 
-interface AbstractProductB {
-    Function1: () => void;
-    Function2: () => void;
-    Function3: () => void;
+// Abstract Product2 Interface
+interface ISofa {
+    getSofa: () => void; 
 }
 
-class DesktopAnalytics implements AbstractAnalyticsFactory {
-    Product1() {
-        return new ProductA1();
-    };
-    Product2() {
-        return new ProductB1();
-    };
-}
-
-class PhoneAnalytics implements AbstractAnalyticsFactory {
-    Product1() {
-        return new ProductA2();
-    };
-    Product2() {
-        return new ProductB2();
-    };
-}
-
-class ProductA1 implements AbstractProductA {
-    Function1() {
-        console.log('Function1 for Product A1')
-    }
-    Function2() {
-        console.log('Function2 for Product A1')
+// Concrete Product1 Variant
+class WoodenChair implements IChair {
+    getChair() {
+        console.log('wooden chair')
     }
 }
 
-class ProductA2 implements AbstractProductA {
-    Function1() {
-        console.log('Function1 for Product A2')
-    }
-    Function2() {
-        console.log('Function2 for Product A2')
+// Concrete Product1 Variant
+class MetalChair implements IChair {
+    getChair() {
+        console.log('metal chair')
     }
 }
 
-class ProductB1 implements AbstractProductB {
-    Function1() {
-        console.log('Function1 for Product A1')
-    }
-    Function2() {
-        console.log('Function2 for Product A1')
-    }
-    Function3() {
-        console.log('Function3 for Product B2')
+// Concrete Product2 Variant
+class WoodenSofa implements ISofa {
+    getSofa() {
+        console.log('wooden sofa')
     }
 }
 
-class ProductB2 implements AbstractProductB {
-    Function1() {
-        console.log('Function1 for Product B2')
-    }
-    Function2() {
-        console.log('Function2 for Product B2')
-    }
-    Function3() {
-        console.log('Function3 for Product B2')
+// Concrete Product2 Variant
+class MetalSofa implements ISofa {
+    getSofa() {
+        console.log('metal sofa')
     }
 }
 
-let Factory1: any = {};
-// This is Factory1 - a variant of Abstract Analytics Factory
-const desktopAnalyticsFactory = new DesktopAnalytics()
-// These both products derieved from Factory 1 are related in some way
-Factory1.product1 = desktopAnalyticsFactory.Product1()
-Factory1.product2 = desktopAnalyticsFactory.Product2()
-Factory1.product1.Function1()
-Factory1.product1.Function2()
-Factory1.product2.Function1()
-Factory1.product2.Function2()
-Factory1.product2.Function3()
+// Factory1 creating concrete Product1 and Product2 of similar type
+class AnticFurnitureFactory implements IFurniturefactory {
+    chair(): IChair {
+        return new WoodenChair()
+    }
 
-let Factory2: any = {};
-// This is Factory2 - another variant of Abstract Analytics Factory
-const phoneAnalyticsFactory = new PhoneAnalytics()
-// These both products derieved from Factory 2 are related in some way
-Factory2.product1 = phoneAnalyticsFactory.Product1()
-Factory2.product2 = phoneAnalyticsFactory.Product2()
-Factory2.product1.Function1()
-Factory2.product1.Function2()
-Factory2.product2.Function1()
-Factory2.product2.Function2()
-Factory2.product2.Function3()
+    sofa(): ISofa {
+        return new WoodenSofa()
+    }
+
+}
+
+// Factory2 creating concrete Product1 and Product2 of similar type
+class ModernFurnitureFactory implements IFurniturefactory {
+    chair(): IChair {
+        return new MetalChair()
+    }
+
+    sofa(): ISofa {
+        return new MetalSofa()
+    }
+}
+
+// main code
+class App {
+    private furniture: IFurniturefactory;
+    constructor(year: number) {
+        if(year < 2000) {
+            this.furniture = new AnticFurnitureFactory();
+        }
+        else {
+            this.furniture = new ModernFurnitureFactory()
+        }
+    }
+
+    produceFurniture() {
+        // produce family of related objects without specifying thier concrete class
+        this.furniture.chair().getChair()
+        this.furniture.sofa().getSofa()
+    }
+}
+
+const AppInstance1 = new App(1972)
+
+AppInstance1.produceFurniture()
