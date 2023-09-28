@@ -38,9 +38,15 @@ class Graph implements IAnalytics {
 class AnalyticsFactory {
 
     static element(type: string) {
-        if(type === 'table') return new Table();
-        if(type === 'chart') return new Chart();
-        if(type === 'graph') return new Graph();
+        if(type === 'table') {
+            return new Table()
+        }
+        else if(type === 'chart') {
+            return new Chart()
+        }
+        else if(type === 'graph') {
+            return new Graph()
+        }
         else throw Error()
     }
 }

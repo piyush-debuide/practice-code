@@ -25,9 +25,15 @@ const laptop1 = new Laptop('wdelements', 'lenovo', 'samsung', 'apple')
 class LaptopFactory {
     private laptop: Laptop;
     constructor(company: string) {
-        if(company === 'apple') this.laptop = new Laptop('apple', 'sandisk', 'sony', 'apple')
-        else if(company === 'lenovo') this.laptop = new Laptop('kingston', 'lenovo', 'samsung', 'lenovo')
-        else if(company === 'acer') this.laptop = new Laptop('corsair', 'segate', 'acer', 'lenovo')
+        if(company === 'apple') {
+            this.laptop = new Laptop('apple', 'sandisk', 'sony', 'apple')
+        }
+        else if(company === 'lenovo') {
+            this.laptop = new Laptop('kingston', 'lenovo', 'samsung', 'lenovo')
+        }
+        else if(company === 'acer') {
+            this.laptop = new Laptop('corsair', 'segate', 'acer', 'lenovo')
+        }
         else {
             console.log('Company not available, sending default laptop')
             this.laptop = new Laptop('wdelements', 'lenovo', 'samsung', 'apple')
@@ -39,5 +45,6 @@ class LaptopFactory {
     }
 }
 
-const apple = new LaptopFactory('apple');
-apple.getLaptop()
+
+// If we have single method we can invoke directly where required else we can create an object and invoke individual methods from factory
+new LaptopFactory('apple').getLaptop();
